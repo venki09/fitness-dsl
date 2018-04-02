@@ -17,7 +17,7 @@ fragment J : 'j'|'J';
 fragment K : 'k'|'K';
 fragment L : 'l'|'L';
 fragment M : 'm'|'M';
-fragment n : 'n'|'N';
+fragment N : 'n'|'N';
 fragment O : 'o'|'O';
 fragment P : 'p'|'P';
 fragment Q : 'q'|'Q';
