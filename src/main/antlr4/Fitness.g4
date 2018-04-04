@@ -1,8 +1,8 @@
-grammar fitness;
+grammar Fitness;
 
 /* Parser rules */
-nutrition_command : H O W M A N Y C A L O R I E S I N FRUIT;
-exercise_command  : I WHITESPACE EXERCISE WHITESPACE NUMBER DISTANCE;
+nutritioncommand : H O W M A N Y C A L O R I E S I N FRUIT;
+exercisecommand  : I WHITESPACE EXERCISE WHITESPACE NUMBER DISTANCE;
 
 /* Lexer rules */
 DISTANCE: M I L E (S+) | K I L O M E T E R (S+);
