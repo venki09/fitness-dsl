@@ -4,7 +4,6 @@ public class FitnessVisitorImpl extends FitnessBaseVisitor<String> {
 
   @Override
   public String visitNutritioncommand(FitnessParser.NutritioncommandContext ctx) {
-    System.out.println("olaaa");
     return super.visitNutritioncommand(ctx);
   }
 
