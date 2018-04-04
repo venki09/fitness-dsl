@@ -1,5 +1,13 @@
 grammar Fitness;
 
+@lexer::header {
+package venky.project.dsl.antlr4;
+}
+
+@parser::header {
+package venky.project.dsl.antlr4;
+}
+
 /* Parser rules */
 nutritioncommand : H O W M A N Y C A L O R I E S I N FRUIT;
 exercisecommand  : I WHITESPACE EXERCISE WHITESPACE NUMBER DISTANCE;

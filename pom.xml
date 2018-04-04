@@ -11,7 +11,7 @@
     <dependencies>
         <dependency>
             <groupId>org.antlr</groupId>
-            <artifactId>antlr4-runtime</artifactId>
+            <artifactId>antlr4</artifactId>
             <version>4.7</version>
         </dependency>
         <dependency>
@@ -39,8 +39,9 @@
                 <version>4.7</version>
                 <configuration>
                     <visitor>true</visitor>
+                    <listener>false</listener>
+                    <sourceDirectory>${basedir}/src/main/resources/venky/project/dsl/antlr4</sourceDirectory>
                 </configuration>
-
                 <executions>
                     <execution>
                         <goals>
@@ -50,9 +51,31 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/target/generated-sources/antlr4</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.0</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
