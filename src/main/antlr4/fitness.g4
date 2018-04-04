@@ -1,7 +1,10 @@
 grammar fitness;
 
 /* Parser rules */
+nutrition_command : H O W M A N Y C A L O R I E S I N FRUIT;
+exercise_command  : I WHITESPACE EXERCISE WHITESPACE NUMBER DISTANCE;
 
+/* Lexer rules */
 DISTANCE: M I L E (S+) | K I L O M E T E R (S+);
 
 //Use regex here for tenses handling
@@ -12,10 +15,6 @@ FRUIT : A P P L E | O R A N G E;
 
 // Potential to extend this to other types of food.
 FOOD : FRUIT;
-
-NUTRITION_COMMAND : H O W M A N Y C A L O R I E S I N FRUIT;
-
-EXERCISE_COMMAND  : I WHITESPACE EXERCISE WHITESPACE NUMBER DISTANCE;
 
 // Lexer rules
 fragment LOWERCASE : [a-z];
