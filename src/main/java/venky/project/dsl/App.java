@@ -7,14 +7,10 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import venky.project.dsl.antlr4.FitnessLexer;
 import venky.project.dsl.antlr4.FitnessParser;
-import venky.project.dsl.antlr4.FitnessVisitor;
 import venky.project.dsl.antlr4.FitnessVisitorImpl;
 
 import java.util.Scanner;
 
-/**
- * Hello world!
- */
 public class App {
   public static void main(String[] args) {
 
@@ -27,10 +23,11 @@ public class App {
     CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
     FitnessParser parser = new FitnessParser(commonTokenStream);
     parser.setErrorHandler(new BailErrorStrategy());
-    ParseTree tree = parser.exercisecommand();
+    ParseTree tree = parser.command();
     FitnessVisitorImpl visitor = new FitnessVisitorImpl();
     String ss = visitor.visit(tree);
 
+    System.out.println(ss);
     sc.close();
   }
 }

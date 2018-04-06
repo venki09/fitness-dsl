@@ -8,10 +8,11 @@ package venky.project.dsl.antlr4;
 package venky.project.dsl.antlr4;
 }
 
-nutritioncommand : H O W M A N Y C A L O R I E S I N FRUIT;
-exercisecommand  : I WHITESPACE EXERCISE WHITESPACE NUMBER WHITESPACE DISTANCE;
+command :  (H O W WHITESPACE M A N Y WHITESPACE C A L O R I E S WHITESPACE I N WHITESPACE FRUIT | I WHITESPACE EXERCISE WHITESPACE NUMBER WHITESPACE DISTANCE  WHITESPACE I N WHITESPACE NUMBER WHITESPACE TIME);
 
 /* Lexer rules */
+TIME: (H O U R (S)? | M I N U T E (S)?);
+
 DISTANCE: (M I L E (S)? | K I L O M E T E R (S)?);
 
 //Use regex here for tenses handling
