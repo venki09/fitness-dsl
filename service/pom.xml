@@ -138,6 +138,22 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>fitness-service</alias>
+                            <name>fitness-service:${project.version}</name>
+                            <build>
+                                <from>tomcat:7.0.85-jre8</from>
+                                <DockerfileDir>${basedir}/src/docker/</DockerfileDir>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>3.0.0</version>
