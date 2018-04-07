@@ -36,16 +36,16 @@ public class FitnessVisitorImpl extends FitnessBaseVisitor<String> {
         String nutritionInfoStream = CharStreams.toString(new InputStreamReader(getClass().getClassLoader()
             .getResourceAsStream("nutritioninfo.json"), "utf-8"));
 
-         JsonObject nutritionInfo = new JsonParser().parse(nutritionInfoStream).getAsJsonObject();
-         JsonArray information = nutritionInfo.get("nutrition_info").getAsJsonArray();
+        JsonObject nutritionInfo = new JsonParser().parse(nutritionInfoStream).getAsJsonObject();
+        JsonArray information = nutritionInfo.get("nutrition_info").getAsJsonArray();
 
-         for(JsonElement jsonElement : information) {
-           if(jsonElement.getAsJsonObject().get("name").getAsString().equals(ctx.FRUIT().toString())) {
-             return jsonElement.toString();
-           }
-         }
+        for(JsonElement jsonElement : information) {
+          if(jsonElement.getAsJsonObject().get("name").getAsString().equals(ctx.FRUIT().toString())) {
+            return jsonElement.toString();
+          }
+        }
 
-         // if not found, return not found instead of null
+        // if not found, return not found instead of null
       } catch (IOException e) {
         e.printStackTrace();
       }
