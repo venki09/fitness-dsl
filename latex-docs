@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage{listings}
+\usepackage{verbatim}
+
+\begin{document}
+
+\begin{titlepage}
+	\begin{center}
+		\line(1,0){300} \\
+		[0.5cm]
+		\huge{\bfseries Draft proposal - DSL for fitness apps} \\
+		\line(1,0){200} \\
+		[0.5cm]
+		\textsc{\LARGE Harrisburg University of Science and Technology} \\
+		\textsc{\large Venkatesh Sridharan} \\
+	\end{center}
+	\hspace{1cm}
+	\begin{abstract}
+Domain specific languages are languages specific to a particular domain. They help not only the
+application developers but also the domain experts in making people understand what the
+purpose of the application we are developing is in a descriptive yet technical way. Designing a
+DSL to follow the fluent interface is one of the most important aspects to think about in language
+design. Yet there are lot of misconceptions around what a DSL is and what it is not. Internal DSL
+- DSL which leverages an existing programming language\textsc{\char13}s syntactic and semantic power is on
+the main things in discussion here. A lot of application libraries developed using some existing
+General-Purpose Language (GPL) and that follows the fluent interface technique calls
+themselves DSLs because they have most of the characteristics although it is missing the main
+point of being specific to a domain. But because of the use-case for which they are used, they
+ended up being put into the DSL realm.
+
+Another component of this project is the voice-recognition part. In the current world, voice assistants have taken a huge part in everyone's homes. From shopping to news-feed to fun-facts, voice assistants are helping people get information very quickly with little or no effort from their side. It is also worth noting that, DSLs have a very important role in voice recognition devices. SAML, a markup language for voice assistants is a perfect example for a DSL. In this project, we have focussed on combining the two to build an application that will help the fitness enthusiasts stay on top of their exercise and diet goals. Through this proposal, we cover the basics of each component and explain how they are connected in the real world.
+\end{abstract}
+\end{titlepage}
+
+\section{Problem Statement}
+We want to create a DSL that the developers or the business owners can easily understand and make use of it in their real-world application to make their process easy. It should also attack a particular domain that people come across in their everyday lives.
+
+\section{Hypothesis}
+Health and fitness domain is something that people come across everyday and in a world with lot of new health problems arise frequently, We are in need of a standard way to develop applications that can help our society be a better place to live. 
+
+\section{Project Proposal}
+This project involves creation of a DSL called fitnessDSL which supports operations where the user can lookup nutrition information of a particular type of food. For the first iteration of this project, we have only focussed on 2 types of fruits and vegetables. This can easily be extended to other types of food as well. The second part is the application part which is a voice recognition software which accepts the input from the user in form of voice and delegates it to the fitnessDsl to get the final output from it, the output from the DSL is then translated to voice and rendered to the user.
+
+\section{Design Methodology}
+Design Methodology:
+The project is divided into 3 components. They are:
+	\begin{itemize}
+		\item Core DSL component along with the web-service to expose it to the outside application.
+		\item Voice recognition component
+	\end{itemize}
+\subsection{Core DSL component}
+This forms the basis of the project. In this, we design a domain specific language that recognizes nutrition information and exercise information and takes appropriate actions. These are simple actions to begin with but can easily be extended to perform complex ones which will provide greater functionality to the users. For the purpose of this DSL, I have used context-free grammar to represent my language. Following is the BNF notation for the language.
+\begin{verbatim}
+<digit> ::= 0| 1| 2| 3| 4| 5| 6| 7| 8| 9|
+<number> ::= <digit> | <number><digit>
+<lowercase_letter> ::= a|b|c|...|z| 
+<uppercase_letter> ::= A|B|C|...|Z| 
+<letter> ::= <uppercase_letter> | <lowercase_letter>
+
+/* Nutrition information */
+<apple> ::= apple|APPLE
+<orange> ::= orange|ORANGE
+<potato> ::= potato|POTATO
+<carrot> ::= carrot|CARROT
+<fruit> ::= <apple>|<orange>
+<vegetable> ::= <potato>|<carrot>
+<food> ::= <fruit>|<vegetable>
+<nutrition_command> :: how many calories in <food>
+
+/* Exercise information */
+<time_unit> ::=hours|minutes
+<dstance_unit> ::= miles|kilometers
+<exercise> ::= ran|cycled|swam
+<exercise_command> ::= I <exercise> <number> <distance_unit> in <number> <time_unit>
+<command> ::= <exercise_command> | <nutrition_command>
+\end{verbatim}
+In a nutshell, the DSL accepts 2 commands, 
+	\begin{itemize}
+		\item nutrition\_command which gets the calorie information of a type of food
+		\item exercise\_command which takes in the workout information and calculates other parameters
+	\end{itemize}
+The nutrition information and exercise information that is output by this DSL can be used in any of the fitness applications to process it and store it in a meaningful way.
+
+\subsection{Implementation Details}
+In order to expose the DSL to any application, the best approach to do is create a web-service that people can call from the consuming application. Service oriented architecture is something that everyone is striving for in the current development world. So this project exposes the core DSL component as a REST API. Following is the technology stack for that
+\begin{itemize}
+	\item Programming language - Java8
+	\item Language development framework - ANTLR4 for grammar definition, lexer and parser
+	\item Packaging - Maven
+	\item REST API framework - RESTEasy
+	\item Development Environment - JetBrains IntelliJ
+	\item Deployment of the web-service - Docker for containerizing the service, Amazon's AWS (Amazon Web Service) for deployment (Will explain later on why this was chosen).
+\end{itemize}
+
+\subsection{Speech Recognition Component}
+This is the consuming part of the project where the core DSL component that is being exposed through a REST API is consumed by a voice-recognition software so that users can get meaningful use of it. For the purpose of the voice-recognition framework, we chose to go with Amazon Alexa which powers their voice assistant devices. Following are some of the reasons for choosing Alexa.
+\begin{itemize}
+	\item Integrates easily with other Amazon web-service products
+	\item Easy to develop a voice-recognition skill
+	\item Excellent development community
+	\item Fully open-sourced which makes it easy for us to consume it.
+	\item Accepted to be one of the best voice recognition assistant.
+\end{itemize}
+
+The speech recognition component is further sub-divided into 2 parts
+\begin{itemize}
+	\item User voice handler which parses user's voice to tokens. This gave me an opportunity to explore the DSL used for it which is SAML. SAML makes it easy for the developers to understand how alexa is able to parse human voice to meaningful text.
+	\item The business logic which handles the users command and serve the request. This piece is hosted in another AWS component called AWS lambda which is a server-less functional architecture that responds to any trigger configured for it.
+\end{itemize}
+
+Inside this lambda function, we will have the logic which basically calls our DSL web-service and responds to the user with the output from the DSL in voice. Since that lambda function is also hosted in AWS, it makes sense to host our DSL-service in AWS as well as the interaction would then be easy and secure. The following diagram will explain how all the components work together.
+
+\section{conclusion}
+Through this project, we have seen how designing an application with DSL makes it easy for the consumers to understand the user-case rather than spend time on the actual implementation detail. Integrating with voice-recognition makes the interaction a lot easier than text input as well. Furthermore, this DSL, if extended well can help fitness calculator development very easy and concise.
+
+\section{Future Scope}
+Having a modularized architecture like the one explained above makes it easy for any future enhancements. Following are some of the enhancements that can be made to the project
+\subsection{DSL Component}
+\begin{itemize}
+\item Extend the grammar to accept other food types
+\item Leverage a database to store all the nutrition information so that the DSL is separated from the database layer
+\item Enhance DSL to give more information than just calories (Like macro details).
+\item Accept other forms of exercise.
+\end{itemize}
+
+\subsection{Voice Recognition component}
+Using the output from DSL, make use of any existing fitness app calculators to log those details into it rather than just saying the output to the user. Examples would be like if someone says "I ate an apple for breakfast", the software should calculate the calorie information using the DSL, then use that to log it to your account in a fitness application. Same goes with exercise information as well.
+
+\end{document}
