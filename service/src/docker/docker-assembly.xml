@@ -1,0 +1,14 @@
+<assembly>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <filtered>true</filtered>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>*.war</include>
+                <include>startup.sh</include>
+            </includes>
+            <outputDirectory>wars</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

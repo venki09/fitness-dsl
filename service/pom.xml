@@ -143,12 +143,20 @@
                 <configuration>
                     <images>
                         <image>
-                            <alias>fitness-service</alias>
                             <name>fitness-service:${project.version}</name>
                             <build>
-                                <from>tomcat:7.0.85-jre8</from>
-                                <DockerfileDir>${basedir}/src/docker/</DockerfileDir>
+                                <cleanup>remove</cleanup>
+                                <dockerFile>${basedir}/src/docker/Dockerfile</dockerFile>
+                                <assembly>
+                                    <descriptor>${basedir}/src/docker/docker-assembly.xml</descriptor>
+                                </assembly>
                             </build>
+                            <run>
+                                <ports>
+                                    <port>8080:8080</port>
+                                    <port>8000:8000</port>
+                                </ports>
+                            </run>
                         </image>
                     </images>
                 </configuration>
