@@ -1,11 +1,6 @@
 {
   "nutrition_info": [
     {
-      "name": "apple",
-      "calories": "76",
-      "sugar": "8g"
-    },
-    {
       "name": "orange",
       "calories": "40",
       "sugar": "5g"

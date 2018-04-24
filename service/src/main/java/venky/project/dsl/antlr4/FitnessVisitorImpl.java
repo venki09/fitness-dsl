@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import javax.ws.rs.NotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -28,8 +29,6 @@ public class FitnessVisitorImpl extends FitnessBaseVisitor<String> {
 
       return object.toString();
     } else {
-      String result = "";
-
       try {
 
         // TODO read it from a database instead of flat-file
@@ -39,17 +38,17 @@ public class FitnessVisitorImpl extends FitnessBaseVisitor<String> {
         JsonObject nutritionInfo = new JsonParser().parse(nutritionInfoStream).getAsJsonObject();
         JsonArray information = nutritionInfo.get("nutrition_info").getAsJsonArray();
 
-        for(JsonElement jsonElement : information) {
-          if(jsonElement.getAsJsonObject().get("name").getAsString().equals(ctx.FRUIT().toString())) {
+        for (JsonElement jsonElement : information) {
+          if (jsonElement.getAsJsonObject().get("name").getAsString().equals(ctx.FRUIT().toString())) {
             return jsonElement.toString();
           }
         }
 
-        // if not found, return not found instead of null
+        // If not found, throw a NotFoundException
+        throw new NotFoundException("No nutrition information found for the food: " + ctx.FRUIT().toString());
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException("Cannot read the database to lookup nutrition information");
       }
-      return result;
     }
   }
 }

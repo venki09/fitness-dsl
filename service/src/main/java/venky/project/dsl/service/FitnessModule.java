@@ -1,5 +1,6 @@
 package venky.project.dsl.service;
 
+import venky.project.dsl.service.exception.NotFoundExceptionMapper;
 import venky.project.dsl.service.resource.ExerciseResource;
 import venky.project.dsl.service.resource.NutritionResource;
 import com.google.inject.PrivateModule;
@@ -11,5 +12,9 @@ public class FitnessModule extends PrivateModule {
     expose(NutritionResource.class);
     bind(ExerciseResource.class);
     expose(ExerciseResource.class);
+
+    // Exception Mappers
+    bind(NotFoundExceptionMapper.class);
+    expose(NotFoundExceptionMapper.class);
   }
 }

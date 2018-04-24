@@ -43,14 +43,9 @@ public class NutritionResource {
     parser.setErrorHandler(new BailErrorStrategy());
     ParseTree tree = parser.command();
     FitnessVisitorImpl visitor = new FitnessVisitorImpl();
-    String ss = visitor.visit(tree);
-
-    if(ss.isEmpty()) {
-      return GenericResponses.ok("NOT_FOUND").build();
-    }
 
     return GenericResponses
-        .ok(ss)
+        .ok(visitor.visit(tree))
         .build();
   }
 }
